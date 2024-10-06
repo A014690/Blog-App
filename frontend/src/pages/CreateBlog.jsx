@@ -144,6 +144,8 @@ const CreateBlog = () => {
                 <label
                   htmlFor="schedule_time"
                   className="block mb-2 text-sm font-medium  "
+                  hidden
+                  style={{ display: 'none' }}
                 >
                   Schedule Time (Optional)
                 </label>
@@ -155,6 +157,8 @@ const CreateBlog = () => {
                   value={blog.schedule_time}
                   onChange={handleChange}
                   min={new Date().toISOString().slice(0, -8)} // Prevent past dates
+                  hidden
+                  style={{ display: 'none' }}
                 />
               </div>
               <div>

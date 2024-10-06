@@ -21,6 +21,40 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
+@api_view(['GET'])
+def blog_dashboard(request):
+    authors = User.objects.all()  # Assuming authors are users
+    response_data = []
+
+    for author in authors:
+        blogs = Blog.objects.filter(author=author)
+        author_data = {
+            'author': author.username,
+            'total_blogs': blogs.count(),
+            'total_likes': 0,
+            'total_comments': 0,
+            'blogs': [],
+        }
+
+        for blog in blogs:
+            likes_count = blog.total_likes()
+            comments_count = blog.comment_count()
+            comments = blog.comments.all().values('id', 'content', 'author__username', 'created_at')  # Assuming you have a related field for comments
+            
+            author_data['total_likes'] += likes_count
+            author_data['total_comments'] += comments_count
+
+            author_data['blogs'].append({
+                'id': blog.id,
+                'title': blog.title,
+                'likes': likes_count,
+                'comments': comments_count,
+                'comments_details': list(comments),
+            })
+
+        response_data.append(author_data)
+
+    return Response(response_data)
 
 @api_view(['GET'])
 def getBlogs(request):
@@ -55,6 +89,7 @@ def getMyBlogs(request):
 @permission_classes([IsAuthenticated])
 def createBlog(request):
     data = request.data
+    print(data)
     user = Profile.objects.get(id=data['author'])
     serializer = BlogSerializer(data=data)
     

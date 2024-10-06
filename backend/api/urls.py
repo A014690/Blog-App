@@ -2,7 +2,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 from django.urls import path
 from .import views
-from . views import MyTokenObtainPairView
+from . views import MyTokenObtainPairView, blog_dashboard
 
 urlpatterns = [
     path('blogs/', views.getBlogs, name="blogs"),
@@ -29,5 +29,6 @@ urlpatterns = [
 
     # Blog Categories
     path('blogs/category/', views.getCategory, name="category"),
+    path('blogs/dashboard/', blog_dashboard, name='blog_dashboard'),
 
 ]
