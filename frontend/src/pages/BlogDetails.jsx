@@ -260,12 +260,14 @@ const BlogDetails = () => {
               required
             />
             <div className="flex justify-end mt-5">
+              
               <button
                 className="btn btn-sm bg-blue-500 text-white mb-5 capitalize"
                 type="submit"
               >
                 Comment
               </button>
+              
             </div>
           </form>
           <div className="flex flex-col gap-3">

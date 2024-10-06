@@ -3,6 +3,7 @@ import Blog from "../components/Blog";
 import AuthContext from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
+import AuthorAnalytics from "./AuthorAnalytics";
 
 const Profile = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -27,7 +28,6 @@ const Profile = () => {
     };
     getBlogs();
     setLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authToken]);
 
   useEffect(() => {
@@ -45,13 +45,12 @@ const Profile = () => {
     };
     getProfile();
     setLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authToken]);
 
   if (!user) {
     return (
       <>
-        <h1 className="text-white">
+        <h1 className="text-white text-center mt-20">
           You are logged out. Please
           <Link to="/login">
             <span className="text-emerald-600"> Login </span>
@@ -63,6 +62,7 @@ const Profile = () => {
   } else {
     return (
       <>
+        <AuthorAnalytics />
         {loading && (
           <div
             style={{
@@ -76,21 +76,20 @@ const Profile = () => {
           </div>
         )}
 
-        <div className="flex flex-wrap md:flex-nowrap justify-around items-center">
-          <div className="space-y-5">
-            <p className="text-4xl font-semibold">
-              Hi! <span className="text-primary">{profile.username}.</span>{" "}
-              welcome to
+        <div className="flex flex-wrap md:flex-nowrap justify-around items-center p-10 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-lg shadow-xl mb-8">
+          <div className="space-y-5 text-center md:text-left text-white">
+            <p className="text-4xl font-bold">
+              Hi! <span className="text-yellow-300">{profile.username}</span>, welcome to
               <span className="site-logo">
-                <span className="text-primary"> B</span>log
-                <span className="text-primary">H</span>ub
+                <span className="text-yellow-300"> C</span>onnect
+                <span className="text-yellow-300">W</span>rite
               </span>
             </p>
             <p className="text-lg font-semibold">
               {blogs.length > 0 ? (
                 <>
                   You have written{" "}
-                  <span className="text-primary">{blogs.length}</span>
+                  <span className="text-yellow-300">{blogs.length}</span>
                   {blogs.length > 1 ? " blogs" : " blog"} so far.
                 </>
               ) : (
@@ -99,34 +98,30 @@ const Profile = () => {
                 </>
               )}
             </p>
-            <button
-              className="btn btn-sm bg-blue-500 text-white capitalize"
-              to="/create"
-            >
-              {" "}
-              <Link to="/create">Create blog</Link>
+            <button className="btn btn-sm bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 px-4 rounded transition duration-300">
+              <Link to="/create">Create Blog</Link>
             </button>
           </div>
           <img
-            className="max-w-md  rounded-full"
+            className="max-w-md rounded-full border-4 border-yellow-300 shadow-lg"
             src={`${BASE_URL}${profile.photo}`}
-            alt=""
+            alt="Profile"
           />
         </div>
 
         {blogs.length > 0 && (
-          <>
-            <p className="text-3xl font-bold text-center blog-title my-10">
-              My Blogs
-            </p>
-          </>
+          <p className="text-3xl font-bold text-center text-white-900 mb-10">
+            My Blogs
+          </p>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          {blogs.map((blog) => {
-            return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
+          {blogs.map((blog) => (
+            <div
+              key={blog.id}
+              className="bg-blue-400 p-5 rounded-lg shadow-md hover:shadow-xl transition duration-300 transform hover:-translate-y-2"
+            >
               <Blog
-                key={blog.id}
                 id={blog.id}
                 title={blog.title}
                 content={blog.content}
@@ -141,8 +136,8 @@ const Profile = () => {
                 author_photo={blog.author_photo}
                 comment_count={blog.comment_count}
               />
-            );
-          })}
+            </div>
+          ))}
         </div>
       </>
     );

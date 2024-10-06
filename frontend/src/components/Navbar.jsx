@@ -88,7 +88,7 @@ const Navbar = () => {
               {user ? (
                 <li className="md:p-4 py-2 block hover:text-primary font-bold">
                   <button
-                    className="bg-blue-800 hover:bg-blue-900 text-white font-bold py-1 px-4 rounded"
+                    className="bg-red-500 hover:bg-red-800 text-white font-bold py-1 px-4 rounded"
                     onClick={() => {
                       userLogout();
                       navigate("/");

@@ -66,6 +66,7 @@ class Blog(models.Model):
     author_bio = property(lambda self: self.author.bio)
     schedule_time = models.DateTimeField(null=True, blank=True)  # Add this field
     is_posted = models.BooleanField(default=False)  # Track whether the blog has been posted
+    
 
     class Meta:
         ordering = ['-created_at']
